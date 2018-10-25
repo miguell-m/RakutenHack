@@ -22,7 +22,7 @@ firebase.initializeApp();
 
 var database = firebase.database();
 
-var ref = database.ref("/users/user2");
+var ref = database.ref("/users/user1");
 
 var user = "";
 ref.on("value", function(snapshot) {
@@ -58,10 +58,22 @@ export class Profile_parent extends React.Component {
   };
 
   onAddChildButtonPressed = () => {
+    console.log(firebase.auth().currentUser);
   };
 
   onViewActivitiesButtonPressed = () => {
     this.props.navigation.navigate('Activities');
+  };
+
+  onLogoutButtonPressed = () => {
+
+    logout = this.props.navigation.navigate('Login_0');
+
+    firebase.auth().signOut().then(function() {
+      logout;
+    }).catch(function(error) {
+      console.log(error);
+    });
   };
 
   render = () => (
@@ -92,6 +104,14 @@ export class Profile_parent extends React.Component {
           rkType = 'large'
           text = 'View Activities'
           onPress = {this.onViewActivitiesButtonPressed}
+        />
+      </View>
+      <View style={styles.content}>
+        <GradientButton
+          style = {styles.save}
+          rkType = 'large'
+          text = 'Logout'
+          onPress = {this.onLogoutButtonPressed}
         />
       </View>
     </ScrollView>

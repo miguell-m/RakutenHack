@@ -24,6 +24,15 @@ firebase.initializeApp(config);
 bootstrap();
 data.populateData();
 
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("success!");
+    console.log(user);
+  } else {
+    console.log("error");
+  }
+});
+
 const SuperNannies = createStackNavigator({
   First: {
     screen: Screens.SplashScreen,

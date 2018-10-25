@@ -76,10 +76,21 @@ export class Login_0 extends React.Component {
       console.log(errorCode);
       console.log(errorMessage);
     });
+
+    login = this.props.navigation.navigate('Profile_parent');
+
+    if (firebase.auth().currentUser != null) {
+      login;
+    }
   };
 
   onLoginButtonPressed = () => {
-    this.props.navigation.navigate('Profile_parent');
+
+    login = this.props.navigation.navigate('Profile_parent');
+
+    if (firebase.auth().currentUser != null) {
+      login;
+    }
   };
 
   onForgotPasswordButtonPressed = () => {
