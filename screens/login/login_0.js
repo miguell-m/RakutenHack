@@ -68,29 +68,41 @@ export class Login_0 extends React.Component {
     const email = this.state.email;
     const password = this.state.password;
 
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      
-      console.log(errorCode);
-      console.log(errorMessage);
-    });
+    firebase.auth().signInWithEmailAndPassword(email, password).
+      then(
+        () => this.props.navigation.navigate('Profile_parent')
+      ).
+      catch(
+        function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
 
-    login = this.props.navigation.navigate('Profile_parent');
-
-    if (firebase.auth().currentUser != null) {
-      login;
-    }
+          console.log(errorCode);
+          console.log(errorMessage);
+        }
+      );
   };
 
   onLoginButtonPressed = () => {
 
-    login = this.props.navigation.navigate('Profile_parent');
+    const email = this.state.email;
+    const password = this.state.password;
 
-    if (firebase.auth().currentUser != null) {
-      login;
-    }
+    firebase.auth().signInWithEmailAndPassword(email, password).
+      then(
+        () => this.props.navigation.navigate('Profile_parent')
+      ).
+      catch(
+        function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+
+          console.log(errorCode);
+          console.log(errorMessage);
+        }
+      );
   };
 
   onForgotPasswordButtonPressed = () => {
@@ -120,12 +132,6 @@ export class Login_0 extends React.Component {
           placeholder = 'Password'
           secureTextEntry
           onChangeText = {(password) => this.setState({password})}
-        />
-        <GradientButton
-          style={styles.save}
-          rkType='large'
-          onPress={this.onDummyButtonPressed}
-          text='DUMMY'
         />
         <GradientButton
           style={styles.save}

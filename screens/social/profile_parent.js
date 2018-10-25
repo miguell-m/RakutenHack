@@ -25,11 +25,26 @@ var database = firebase.database();
 var ref = database.ref("/users/user1");
 
 var user = "";
-ref.on("value", function(snapshot) {
-  user = snapshot.val();
+
+var curUser = firebase.auth().currentUser;
+var userRef = "/users/user_";
+var someVal = "";
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    curUser = firebase.auth().currentUser;
+    userRef = userRef.concat(curUser.uid);
+    var someref = database.ref(userRef);
+    someref.on("value", function(snapshot) {
+      someVal = snapshot.val();
+    });
+  } else {
+    console.log("no one is signed in.");
+  }
 });
 
 export class Profile_parent extends React.Component {
+
   static propTypes = {
     navigation: NavigationType.isRequired,
   };
@@ -39,14 +54,23 @@ export class Profile_parent extends React.Component {
 
   state = {
     data: undefined,
+    currentUser: null
   };
+
+  componentDidMount() {
+
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
+
+  }
 
   constructor(props) {
     super(props);
     const id = this.props.navigation.getParam('id', 3);
+
     this.state.data = data.getUser(id);
 
-    this.state.parent = user;
+    this.state.parent = someVal;
   }
 
   onEditProfileSettingsButtonPressed = () => {
@@ -58,7 +82,7 @@ export class Profile_parent extends React.Component {
   };
 
   onAddChildButtonPressed = () => {
-    console.log(firebase.auth().currentUser);
+    console.log(someVal);
   };
 
   onViewActivitiesButtonPressed = () => {
@@ -68,6 +92,9 @@ export class Profile_parent extends React.Component {
   onLogoutButtonPressed = () => {
 
     logout = this.props.navigation.navigate('Login_0');
+
+    console.log("Signing out...");
+    console.log(firebase.auth().currentUser);
 
     firebase.auth().signOut().then(function() {
       logout;
@@ -80,7 +107,7 @@ export class Profile_parent extends React.Component {
     <ScrollView style={styles.root}>
       <View style={[styles.header, styles.bordered]}>
         <Avatar img={this.state.data.photo} rkType='big' />
-        <RkText rkType='header2'>{`${this.state.parent.firstname} ${this.state.parent.lastname}`}</RkText>
+        <RkText rkType='header2'>{`${someVal.firstname} ${someVal.lastname}`}</RkText>
       </View>
       <View style={styles.content}>
         <GradientButton

@@ -18,6 +18,8 @@ import NavigationType from '../../config/navigation/propTypes';
 
 import firebase from 'react-native-firebase';
 
+firebase.initializeApp();
+
 export class SignUp_2 extends React.Component {
   static navigationOptions = {
     header: null,
@@ -34,18 +36,42 @@ export class SignUp_2 extends React.Component {
       birthday: this.props.navigation.state.params.birthday,
       email: this.props.navigation.state.params.email,
       password: this.props.navigation.state.params.password,
+      phone: this.props.navigation.state.params.phone,
       street: this.props.navigation.state.params.street,
       city: this.props.navigation.state.params.city,
+      state: this.props.navigation.state.params.state,
       country: this.props.navigation.state.params.country,
       zipcode: this.props.navigation.state.params.zipcode,
     }
 
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((user) => {
-        console.log("Success!");
+
+        uid = firebase.auth().currentUser.uid;
+
+        firebase.database().ref('/users/user_'.concat(uid)).set({
+          firstname: this.state.firstname,
+          lastname: this.state.lastname,
+          birthday: this.state.birthday,
+          email: this.state.email,
+          email_verified: false,
+          password: this.state.password,
+          phone: this.state.phone,
+          phone_verified: false,
+          street: this.state.street,
+          city: this.state.city,
+          state: this.state.state,
+          country: this.state.country,
+          zipcode: this.state.zipcode,
+          children: null,
+        });
+
+        this.props.navigation.navigate('Profile_parent');
       })
       .catch((error) => {
         const { code, message } = error;
+        console.log(code);
+        console.log(message);
         console.log("Failure!");
       });
   }
@@ -58,28 +84,6 @@ export class SignUp_2 extends React.Component {
   renderImage = () => (
     <Image style={styles.image} source={this.getThemeImageSource(RkTheme.current)} />
   );
-
-  onContinueButtonPressed = () => {
-    if (this.state.zipcode === '12345') {
-      this.props.navigation.navigate('SignUp_2_done',
-        {
-          firstname: this.state.firstname,
-          lastname: this.state.lastname,
-          birthday: this.state.birthday,
-          email: this.state.email,
-          password: this.state.password,
-          street: this.state.street,
-          city: this.state.city,
-          country: this.state.country,
-          zipcode: this.state.zipcode,
-        }
-      );
-    }
-  };
-
-  onBackButtonPressed = () => {
-    this.props.navigation.goBack();
-  };
 
   render = () => (
     <RkAvoidKeyboard
@@ -112,6 +116,9 @@ export class SignUp_2 extends React.Component {
           </RkText>
           <RkText rkType = 'primary'>
             {this.state.city}
+          </RkText>
+          <RkText rkType = 'primary'>
+            {this.state.state}
           </RkText>
           <RkText rkType = 'primary'>
             {this.state.country}
