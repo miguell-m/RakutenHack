@@ -28,14 +28,15 @@ var user = "";
 
 var curUser = firebase.auth().currentUser;
 var userRef = "/users/user_";
+var someRef = "";
 var someVal = "";
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     curUser = firebase.auth().currentUser;
     userRef = userRef.concat(curUser.uid);
-    var someref = database.ref(userRef);
-    someref.on("value", function(snapshot) {
+    someRef = database.ref(userRef);
+    someRef.on("value", function(snapshot) {
       someVal = snapshot.val();
     });
   } else {
@@ -82,7 +83,20 @@ export class Profile_parent extends React.Component {
   };
 
   onAddChildButtonPressed = () => {
-    console.log(someVal);
+
+    someRef.once("value")
+      .then(function(snapshot) {
+        if (snapshot.hasChild("children") == false) {
+
+          uid = firebase.auth().currentUser.uid;
+
+          firebase.database().ref('/users/user_'.concat(uid)).push({
+            children: "ayye!",
+          }, {merge: true});
+
+        }
+      });
+
   };
 
   onViewActivitiesButtonPressed = () => {

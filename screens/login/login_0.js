@@ -86,6 +86,12 @@ export class Login_0 extends React.Component {
 
   onLoginButtonPressed = () => {
 
+    if (firebase.auth().currentUser != null) {
+      firebase.auth().signOut().catch(function(error) {
+        console.log(error);
+      });
+    }
+
     const email = this.state.email;
     const password = this.state.password;
 

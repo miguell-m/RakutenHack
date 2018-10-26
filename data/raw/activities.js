@@ -1,10 +1,10 @@
-const articles = [{
+const activities = [{
   id: 1,
   photo: require('../img/photo1.png'),
   type: 'article',
   time: -300,
-  header: 'Placeholder',
-  text: 'I am available from 5PM ~ 10PM to watch your children!',
+  header: 'Plants Of Our Nature',
+  text: 'Ferns are a very old group of plants. They first appeared on Earth in the middle Devonian Era about 360 million years ago, just before the Carboniferous Era. Most of the modern fern families we see today first appeared in the Late Cretaceous about 45 or 50 million years ago – during the age of the dinosaurs!',
   comments: [{
     id: 1,
     text: 'Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.',
@@ -170,4 +170,4 @@ const articles = [{
 },
 ];
 
-export default articles;
+export default activities;

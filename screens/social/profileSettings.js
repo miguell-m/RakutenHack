@@ -86,6 +86,12 @@ export class ProfileSettings extends React.Component {
         <View style={styles.header}>
           <Avatar img={this.user.photo} rkType='big' />
         </View>
+        <GradientButton
+          rkType = 'large'
+          style = {styles.button}
+          text = 'UPLOAD PROFILE PHOTO'
+          onPress = {this.onSaveButtonPressed}
+        />
         <View style={styles.section}>
           <View style={[styles.row, styles.heading]}>
             <RkText rkType='header6 primary'>INFO</RkText>
